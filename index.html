@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Text Webcam</title>
+    <link rel="stylesheet" href="css/global-reset.css" />
+    <link rel="stylesheet" href="css/app.css" />
+  </head>
+
+  <body>
+    <div id="container">
+      <main id="app">
+        <!-- CONTROLS -->
+        <div id="controls">
+          <p id="fpsP"></p>
+        </div>
+
+        <!-- FRAME SHOWN AS TEXT HERE -->
+        <div id="overlay">
+          <canvas id="canvas"></canvas>
+
+          <p id="textHolderP"></p>
+        </div>
+
+        <img src="img/future.png" alt="" />
+
+        <!-- WEB CAM (hidden) -->
+        <video autoplay="true" id="videoElement"></video>
+      </main>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
