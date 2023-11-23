@@ -54,7 +54,7 @@ export function draw() {
     upperContrast,
   } = params;
 
-  const useCanvas = false;
+  const useCanvas = true;
   const _blockSize = blockSize.value;
   const _blocksAcross = blocksAcross.value;
   const _blocksDown = _blocksAcross * wToHRatio;
@@ -69,8 +69,13 @@ export function draw() {
   });
 
   if (useCanvas) {
-    const smallCanvas = getSmallCanvas(frameCanvas, 20);
-    const blockCanvas = getBlockCanvas(smallCanvas, 10);
+    const smallCanvas = getSmallCanvas(frameCanvas, _blocksAcross);
+    const blockCanvas = getBlockCanvas(
+      smallCanvas,
+      _blockSize,
+      lowerContrast.value,
+      upperContrast.value
+    );
     canvas.width = blockCanvas.width;
     canvas.height = blockCanvas.height;
     const ctx = canvas.getContext("2d");
@@ -82,12 +87,4 @@ export function draw() {
 
     textHolderP.innerHTML = getBrightnessText(frameCanvas);
   }
-}
-
-function map(value, in_min, in_max, out_min, out_max) {
-  const inRange = in_max - in_min;
-  const outRange = out_max - out_min;
-  const mapped = ((value - in_min) * outRange) / inRange + out_min;
-
-  return clamp(mapped, out_min, out_max);
 }

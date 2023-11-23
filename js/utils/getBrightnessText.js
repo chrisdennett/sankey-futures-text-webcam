@@ -1,7 +1,7 @@
 import { map } from "./map.js";
+export const densityChars = ".,;?iIOP@#";
 
 export function getBrightnessText(frameCanvas) {
-  const densityChars = "     .,;?iIOP@#2050";
   //const densityChars = "   .,;*%?iIOP@#";
   const len = densityChars.length;
   let str = "";
