@@ -1,5 +1,8 @@
-import { densityChars } from "./getBrightnessText.js";
+// import { densityChars } from "./getBrightnessText.js";
 import { map } from "./map.js";
+
+const densityChars = "...,;?i250@#";
+// const densityChars = "...RelaxInto2050";
 
 const outputCanvas = document.createElement("canvas");
 
@@ -15,16 +18,17 @@ export const getBlockCanvas = (
   outputCanvas.height = inputH * blockSize;
   const outputCtx = outputCanvas.getContext("2d");
 
-  const middleX = outputCanvas.width / 2;
-  const middleY = outputCanvas.height / 2;
+  // const middleX = outputCanvas.width / 2;
+  // const middleY = outputCanvas.height / 2;
 
   const inputCtx = inputCanvas.getContext("2d");
   let imgData = inputCtx.getImageData(0, 0, inputW, inputH);
   let pixels = imgData.data;
+  outputCtx.font = `${blockSize}px Arial`;
 
   let r, g, b, brightness, blockX, blockY;
   outputCtx.fillStyle = "white";
-  const halfBlockSize = blockSize / 2;
+  // const halfBlockSize = blockSize / 2;
 
   for (let y = 0; y < inputH; y++) {
     for (let x = 0; x < inputW; x++) {
@@ -53,12 +57,18 @@ export const getBlockCanvas = (
       outputCtx.save();
 
       const charIndex = Math.floor(
-        map(decimalPercentage, 0, 1, 0, densityChars.length)
+        map(
+          decimalPercentage,
+          lowerContrast,
+          upperContrast,
+          0,
+          densityChars.length
+        )
       );
       const char = densityChars[charIndex];
 
       outputCtx.translate(blockX, blockY);
-      const scale = decimalPercentage + 0.3;
+      const scale = decimalPercentage;
       outputCtx.scale(scale, scale);
       outputCtx.globalAlpha = decimalPercentage;
       outputCtx.fillText(char, 0, 0);

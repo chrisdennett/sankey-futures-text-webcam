@@ -1,5 +1,5 @@
 import { map } from "./map.js";
-export const densityChars = ".,;?iIOP@#";
+const densityChars = ".,;?iIOP@#";
 
 export function getBrightnessText(frameCanvas) {
   //const densityChars = "   .,;*%?iIOP@#";
