@@ -18,8 +18,8 @@ export const getBlockCanvas = (
   outputCanvas.height = inputH * blockSize;
   const outputCtx = outputCanvas.getContext("2d");
 
-  // const middleX = outputCanvas.width / 2;
-  // const middleY = outputCanvas.height / 2;
+  const middleX = outputCanvas.width / 2;
+  const middleY = outputCanvas.height / 2;
 
   const inputCtx = inputCanvas.getContext("2d");
   let imgData = inputCtx.getImageData(0, 0, inputW, inputH);
@@ -29,6 +29,8 @@ export const getBlockCanvas = (
   let r, g, b, brightness, blockX, blockY;
   outputCtx.fillStyle = "white";
   // const halfBlockSize = blockSize / 2;
+
+  const useFake3d = false;
 
   for (let y = 0; y < inputH; y++) {
     for (let x = 0; x < inputW; x++) {
@@ -48,12 +50,9 @@ export const getBlockCanvas = (
       const brightnessSize = blockSize * decimalPercentage;
       const offset = (blockSize - brightnessSize) / 2;
 
-      // TODO this Block pos only works for vertical cetner alignment
       blockX = offset + x * blockSize;
       blockY = offset + y * blockSize;
 
-      // text
-      // outputCtx.font = `${brightnessSize}px Arial`;
       outputCtx.save();
 
       const charIndex = Math.floor(
@@ -66,14 +65,27 @@ export const getBlockCanvas = (
         )
       );
       const char = densityChars[charIndex];
-
-      outputCtx.translate(blockX, blockY);
-      const scale = decimalPercentage;
-      outputCtx.scale(scale, scale);
       outputCtx.globalAlpha = decimalPercentage;
-      outputCtx.fillText(char, 0, 0);
 
-      outputCtx.restore();
+      if (useFake3d) {
+        // Calculate the distance from the center
+        const distX = blockX - middleX;
+        const distY = blockY - middleY;
+
+        // Scale the distance from the center
+        const scaledX = middleX + distX * decimalPercentage;
+        const scaledY = middleY + distY * decimalPercentage;
+        outputCtx.fillText(char, scaledX, scaledY);
+      } else {
+        outputCtx.translate(blockX, blockY);
+        const scale = decimalPercentage;
+        outputCtx.scale(scale, scale);
+        outputCtx.fillText(char, 0, 0);
+      }
+
+      // outputCtx.translate(0, 0);
+
+      //scaled in place
 
       // rectangle
       // outputCtx.fillRect(blockX, blockY, brightnessSize, brightnessSize);
@@ -88,8 +100,9 @@ export const getBlockCanvas = (
       //   Math.PI * 2
       // );
       // outputCtx.fill();
+      // outputCtx.closePath();
 
-      outputCtx.closePath();
+      outputCtx.restore();
     }
   }
 
