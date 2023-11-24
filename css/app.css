@@ -7,6 +7,53 @@ body {
   overflow: hidden;
 }
 
+section {
+  width: 960px;
+  height: 711px;
+  overflow: hidden;
+  position: absolute;
+  background: rebeccapurple;
+}
+
+/* TOP SCREEN */
+#section1 {
+  top: 99px;
+  left: 0;
+}
+
+#section2 {
+  top: 99px;
+  right: 0;
+}
+
+/* BOTTOM SCREEN */
+#section3 {
+  bottom: 99px;
+  left: 0;
+}
+
+#section4 {
+  bottom: 99px;
+  right: 0;
+}
+
+#section4 img {
+  position: absolute;
+}
+
+#section5 {
+  bottom: 99px;
+  right: 0;
+}
+
+.testImg {
+  clip-path: url(#clipPath1);
+}
+
+.testImg2 {
+  clip-path: url(#clipPath2);
+}
+
 #overlay {
   /* color: rgb(255 255 255 / 44%);
   mix-blend-mode: color-dodge; */
