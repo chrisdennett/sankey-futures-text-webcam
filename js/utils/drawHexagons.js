@@ -1,7 +1,8 @@
 import { getRoundedHexagon } from "./getPolygonCorners.js";
 
 export function drawHexagonGrid({
-  parent,
+  parent1,
+  parent2,
   hexagonsAcross,
   hexagonsDown,
   sideLength = 50,
@@ -28,7 +29,11 @@ export function drawHexagonGrid({
         y,
       });
 
-      parent.appendChild(hexPath);
+      let parent = Math.random() > 0.3 ? parent1 : parent2;
+
+      if (Math.random() > 0.2) {
+        parent.appendChild(hexPath);
+      }
     }
   }
 }

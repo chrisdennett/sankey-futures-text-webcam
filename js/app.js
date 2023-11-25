@@ -27,9 +27,9 @@ const hexDimensions = getHexDimensions({ orientation, sideLength });
 const hexagonsAcross = Math.ceil(960 / hexDimensions.width);
 const yOverlap = sideLength / 2;
 const hexagonsDown = Math.floor(711 / (hexDimensions.height - yOverlap));
-console.log("hexagonsAcross: ", hexagonsAcross);
 drawHexagonGrid({
-  parent: clipPath1,
+  parent1: clipPath1,
+  parent2: clipPath2,
   hexDimensions,
   sideLength,
   cornerRadius,
