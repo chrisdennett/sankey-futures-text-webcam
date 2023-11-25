@@ -3,10 +3,8 @@ import { initControls } from "./controls.js";
 import { getSmallCanvas } from "./utils/getSmallCanvas.js";
 import { getBlockCanvas } from "./utils/getBlockCanvas.js";
 import { getBrightnessText } from "./utils/getBrightnessText.js";
-import {
-  getHexagonCorners,
-  getRoundedHexagon,
-} from "./utils/getPolygonCorners.js";
+
+import { drawHexagonGrid, getHexDimensions } from "./utils/drawHexagons.js";
 
 // app elements
 const canvas = document.querySelector("#canvas");
@@ -14,11 +12,6 @@ const controls = document.querySelector("#controls");
 const video = document.querySelector("#videoElement");
 const textHolderP = document.querySelector("#textHolderP");
 
-const roundedCornerPolygonPath =
-  "M6 97 Q0 87 6 76 l38-66 Q50 0 62 0 h76 q12 0 18 10l38 66 q6 11 0 21 l-38 66 q-6 10-18 10 H62 q-12 0-18-10 Z";
-const aiClipPaths = [
-  "M6 97 Q0 87 6 76 l38-66 Q50 0 62 0 h76 q12 0 18 10l38 66 q6 11 0 21 l-38 66 q-6 10-18 10 H62 q-12 0-18-10 Z",
-];
 const clipPath1 = document.querySelector("#clipPath1");
 const clipPath2 = document.querySelector("#clipPath2");
 
@@ -27,20 +20,23 @@ const params = initControls(controls);
 const webcamRes = { w: 40, h: 30 };
 const wToHRatio = webcamRes.h / webcamRes.w;
 
-// clipPath1
-const newpath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-const sideLength = 100;
+const sideLength = 50;
+const cornerRadius = 0;
 const orientation = "pointyTop";
-const cornerRadius = 30;
-const roundedHex = getRoundedHexagon({
+const hexDimensions = getHexDimensions({ orientation, sideLength });
+const hexagonsAcross = Math.ceil(960 / hexDimensions.width);
+const yOverlap = sideLength / 2;
+const hexagonsDown = Math.floor(711 / (hexDimensions.height - yOverlap));
+console.log("hexagonsAcross: ", hexagonsAcross);
+drawHexagonGrid({
+  parent: clipPath1,
+  hexDimensions,
   sideLength,
   cornerRadius,
+  hexagonsAcross,
+  hexagonsDown,
   orientation,
 });
-console.log("roundedHex: ", roundedHex);
-
-newpath.setAttributeNS(null, "d", roundedHex);
-clipPath1.appendChild(newpath);
 
 // set up controls, webcam etc
 export function setup() {
