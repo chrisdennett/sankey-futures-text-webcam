@@ -1,3 +1,5 @@
+// source: https://codepen.io/wvr/pen/WrNgJp
+
 export function getHexagonCorners({ sideLength, centerPt }) {
   return getPolygonCorners({
     centerPt,
