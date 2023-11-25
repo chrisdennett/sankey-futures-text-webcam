@@ -20,8 +20,9 @@ const params = initControls(controls);
 const webcamRes = { w: 40, h: 30 };
 const wToHRatio = webcamRes.h / webcamRes.w;
 
-const sideLength = 50;
-const cornerRadius = 0;
+const sideLength = 100;
+const cornerRadius = 20;
+const padding = 20;
 const orientation = "pointyTop";
 const hexDimensions = getHexDimensions({ orientation, sideLength });
 const hexagonsAcross = Math.ceil(960 / hexDimensions.width);
@@ -30,6 +31,7 @@ const hexagonsDown = Math.floor(711 / (hexDimensions.height - yOverlap));
 drawHexagonGrid({
   parent1: clipPath1,
   parent2: clipPath2,
+  padding,
   hexDimensions,
   sideLength,
   cornerRadius,

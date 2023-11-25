@@ -9,18 +9,21 @@ export function drawHexagonGrid({
   cornerRadius = 0,
   orientation = "flatTop",
   hexDimensions,
+  padding = 0,
 }) {
   // draw a series of rows or columns
   const { width, height } = hexDimensions;
   const yOverlap = sideLength / 2;
   const yOffset = -yOverlap / 2;
+  const w = width + padding;
+  const h = height + padding;
 
   for (let i = 0; i < hexagonsDown; i++) {
     const isOddRow = i % 2 === 0;
     let colXStart = isOddRow ? 0 : -width / 2;
     for (let j = 0; j < hexagonsAcross; j++) {
-      const x = colXStart + j * width;
-      const y = yOffset + yOverlap + i * (height - yOverlap);
+      const x = colXStart + j * w;
+      const y = yOffset + yOverlap + i * (h - yOverlap);
       const hexPath = getHexagonPath({
         sideLength,
         cornerRadius,
@@ -29,9 +32,9 @@ export function drawHexagonGrid({
         y,
       });
 
-      let parent = Math.random() > 0.3 ? parent1 : parent2;
+      let parent = Math.random() > 0.1 ? parent1 : parent2;
 
-      if (Math.random() > 0.2) {
+      if (Math.random() > 0.3) {
         parent.appendChild(hexPath);
       }
     }
