@@ -39,7 +39,7 @@ const defaultParams = {
   blockSize: {
     type: "slider",
     min: 1,
-    max: 20,
+    max: 60,
     step: 1,
     value: window.localStorage.getItem("blockSize") || 10,
   },
