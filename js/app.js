@@ -44,7 +44,7 @@ const wToHRatio = webcamRes.h / webcamRes.w;
 export function setup() {
   // hide controls by default and if app is right clicked
   document.addEventListener("dblclick", onDoubleClick);
-  // controls.style.display = "none";
+  controls.style.display = "none";
 
   function onDoubleClick(e) {
     e.preventDefault();

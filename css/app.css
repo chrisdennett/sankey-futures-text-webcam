@@ -26,14 +26,17 @@ ul {
   height: 1080px;
 }
 
-li img {
-  border-radius: 50px;
+.imgHolder {
+  border-radius: 150px;
+  overflow: hidden;
+  border: 20px solid black;
 }
 
 /* PASTE GENERATIVE CSS HERE */
 li {
   position: absolute;
   animation: xfade 162s infinite;
+  border-radius: 150px;
 }
 
 li:nth-child(18) {
@@ -115,9 +118,17 @@ li:nth-child(1) {
   height: 1080px;
 }
 
-#canvas {
+#canvasHolder {
   margin: 0 auto;
+  width: 1457px;
+  height: 1080px;
+  border-radius: 150px;
+  overflow: hidden;
+  border: 20px solid black;
 }
+
+/* #canvas {
+} */
 
 /* #textHolderP {
   font-family: "Red Hat Mono", monospace;
