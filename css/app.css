@@ -29,7 +29,7 @@ ul {
 .imgHolder {
   border-radius: 150px;
   overflow: hidden;
-  border: 20px solid black;
+  border: 5px solid black;
 }
 
 /* PASTE GENERATIVE CSS HERE */
@@ -116,6 +116,7 @@ li:nth-child(1) {
 #bottomScreen {
   width: 1920px;
   height: 1080px;
+  background: black;
 }
 
 #canvasHolder {
@@ -124,7 +125,7 @@ li:nth-child(1) {
   height: 1080px;
   border-radius: 150px;
   overflow: hidden;
-  border: 20px solid black;
+  border: 10px solid black;
 }
 
 /* #canvas {

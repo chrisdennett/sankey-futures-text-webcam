@@ -44,7 +44,7 @@ const wToHRatio = webcamRes.h / webcamRes.w;
 export function setup() {
   // hide controls by default and if app is right clicked
   document.addEventListener("dblclick", onDoubleClick);
-  controls.style.display = "none";
+  // controls.style.display = "none";
 
   function onDoubleClick(e) {
     e.preventDefault();
@@ -70,14 +70,7 @@ export function setup() {
 }
 
 export function draw() {
-  const {
-    flipX,
-    flipY,
-    blockSize,
-    blocksAcross,
-    lowerContrast,
-    upperContrast,
-  } = params;
+  const { flipX, flipY, blockSize, blocksAcross } = params;
 
   const useCanvas = true;
   const _blockSize = blockSize.value;
@@ -95,12 +88,7 @@ export function draw() {
 
   if (useCanvas) {
     const smallCanvas = getSmallCanvas(frameCanvas, _blocksAcross);
-    const blockCanvas = getBlockCanvas(
-      smallCanvas,
-      _blockSize,
-      lowerContrast.value,
-      upperContrast.value
-    );
+    const blockCanvas = getBlockCanvas(smallCanvas, _blockSize);
     canvas.width = blockCanvas.width;
     canvas.height = blockCanvas.height;
     const ctx = canvas.getContext("2d");

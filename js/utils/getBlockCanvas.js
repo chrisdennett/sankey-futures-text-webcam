@@ -2,21 +2,23 @@
 import { map } from "./map.js";
 
 const densityChars = "...,;?i250@#";
+const promptTxt =
+  "Create an image of Barrow-in-Furness, a town in Cumbria, UK, transformed into a vibrant Solarpunk cityscape. Show a harmonious blend of futuristic architecture integrated with nature: towering buildings adorned with greenery and vertical gardens, interconnected by bridges and walkways lined with lush trees and vibrant plants. In the sky, visualise airships sailing gracefully among floating gardens and renewable energy sources like solar panels and wind turbines. Include futuristic trains smoothly traversing the city, powered by sustainable energy sources. The scene should radiate a sense of harmony between advanced technology, nature, and a community thriving in a utopian Solarpunk setting.";
+const promptLength = promptTxt.length;
+const textCanvas = document.createElement("canvas");
+const textCanvasSettings = { blockSize: 0, blocksAcross: 0, blocksDown: 0 };
+console.log("textCanvas: ", textCanvas);
 // const densityChars = "...RelaxInto2050";
 
 const outputCanvas = document.createElement("canvas");
 
-export const getBlockCanvas = (
-  inputCanvas,
-  blockSize,
-  lowerContrast,
-  upperContrast
-) => {
+export const getBlockCanvas = (inputCanvas, blockSize) => {
   const { width: inputW, height: inputH } = inputCanvas;
 
   outputCanvas.width = inputW * blockSize;
   outputCanvas.height = inputH * blockSize;
   const outputCtx = outputCanvas.getContext("2d");
+  outputCtx.fillRect(0, 0, outputCanvas.width, outputCanvas.height);
 
   const middleX = outputCanvas.width / 2;
   const middleY = outputCanvas.height / 2;
@@ -28,9 +30,24 @@ export const getBlockCanvas = (
 
   let r, g, b, brightness, blockX, blockY;
   outputCtx.fillStyle = "white";
-  // const halfBlockSize = blockSize / 2;
 
   const useFake3d = false;
+
+  if (
+    textCanvasSettings.blocksAcross !== inputW ||
+    textCanvasSettings.blocksDown !== inputH ||
+    textCanvasSettings.blockSize !== blockSize
+  ) {
+    textCanvasSettings.blocksAcross = inputW;
+    textCanvasSettings.blocksDown = inputH;
+    textCanvasSettings.blockSize = blockSize;
+    drawTextCanvas({
+      promptTxt,
+      blockSize,
+      blocksAcross: inputW,
+      blocksDown: inputH,
+    });
+  }
 
   for (let y = 0; y < inputH; y++) {
     for (let x = 0; x < inputW; x++) {
@@ -40,31 +57,25 @@ export const getBlockCanvas = (
       g = pixels[i + 1];
       b = pixels[i + 2];
 
-      brightness = r * 0.2126 + g * 0.7152 + b * 0.0722;
-
+      brightness = (r + g + b) / 3;
       const decimalPercentage = brightness / 255;
-
-      if (decimalPercentage < lowerContrast) continue;
-
-      // block width deterimined by brightness
-      const brightnessSize = blockSize * decimalPercentage;
-      const offset = (blockSize - brightnessSize) / 2;
-
-      blockX = offset + x * blockSize;
-      blockY = offset + y * blockSize;
+      blockX = x * blockSize;
+      blockY = y * blockSize;
 
       outputCtx.save();
 
-      const charIndex = Math.floor(
-        map(
-          decimalPercentage,
-          lowerContrast,
-          upperContrast,
-          0,
-          densityChars.length
-        )
-      );
-      const char = densityChars[charIndex];
+      // const charIndex = Math.floor(
+      //   map(
+      //     decimalPercentage,
+      //     lowerContrast,
+      //     upperContrast,
+      //     0,
+      //     densityChars.length
+      //   )
+      // );
+      // const char = densityChars[charIndex];
+      const charIndex = i % promptLength;
+      const char = promptTxt[charIndex];
       outputCtx.globalAlpha = decimalPercentage;
 
       if (useFake3d) {
@@ -73,38 +84,58 @@ export const getBlockCanvas = (
         const distY = blockY - middleY;
 
         // Scale the distance from the center
-        const scaledX = middleX + distX * decimalPercentage;
-        const scaledY = middleY + distY * decimalPercentage;
+        const scaledX = middleX + distX * (0.4 + decimalPercentage);
+        const scaledY = middleY + distY * (0.4 + decimalPercentage);
         outputCtx.fillText(char, scaledX, scaledY);
       } else {
         outputCtx.translate(blockX, blockY);
-        const scale = decimalPercentage;
-        outputCtx.scale(scale, scale);
-        outputCtx.fillText(char, 0, 0);
+        outputCtx.drawImage(
+          textCanvas,
+          blockX,
+          blockY,
+          blockSize,
+          blockSize,
+          0,
+          0,
+          blockSize * decimalPercentage,
+          blockSize * decimalPercentage
+        );
       }
-
-      // outputCtx.translate(0, 0);
-
-      //scaled in place
-
-      // rectangle
-      // outputCtx.fillRect(blockX, blockY, brightnessSize, brightnessSize);
-
-      // circle
-      // outputCtx.beginPath();
-      // outputCtx.arc(
-      //   blockX + halfBlockSize,
-      //   blockY + halfBlockSize,
-      //   brightnessSize / 2,
-      //   0,
-      //   Math.PI * 2
-      // );
-      // outputCtx.fill();
-      // outputCtx.closePath();
 
       outputCtx.restore();
     }
   }
 
+  // outputCtx.drawImage(textCanvas, 0, 0);
+
   return outputCanvas;
 };
+
+function drawTextCanvas({ promptTxt, blockSize, blocksAcross, blocksDown }) {
+  textCanvas.width = blocksAcross * blockSize;
+  textCanvas.height = blocksDown * blockSize;
+
+  const ctx = textCanvas.getContext("2d");
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, textCanvas.width, textCanvas.height);
+  ctx.font = `${blockSize}px Arial`;
+  ctx.fontWeight = "bold";
+  ctx.fillStyle = "white";
+
+  for (let y = 0; y < blocksDown; y++) {
+    for (let x = 0; x < blocksAcross; x++) {
+      const i = y * blocksAcross + x;
+
+      const blockX = x * blockSize;
+      const blockY = y * blockSize;
+
+      ctx.save();
+      ctx.translate(blockX, blockY);
+      const charIndex = i % promptLength;
+      const char = promptTxt[charIndex];
+      ctx.fillText(char, 0, 0);
+      // ctx.fillRect(0, 0, blockSize, blockSize);
+      ctx.restore();
+    }
+  }
+}

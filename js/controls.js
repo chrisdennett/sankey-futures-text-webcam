@@ -15,33 +15,33 @@ mountSize: {
 */
 
 const defaultParams = {
-  lowerContrast: {
-    type: "slider",
-    min: 0,
-    max: 1,
-    step: 0.1,
-    value: window.localStorage.getItem("lowerContrast") || 0,
-  },
-  upperContrast: {
-    type: "slider",
-    min: 0,
-    max: 1,
-    step: 0.1,
-    value: window.localStorage.getItem("upperContrast") || 1,
-  },
+  // lowerContrast: {
+  //   type: "slider",
+  //   min: 0,
+  //   max: 1,
+  //   step: 0.1,
+  //   value: window.localStorage.getItem("lowerContrast") || 0,
+  // },
+  // upperContrast: {
+  //   type: "slider",
+  //   min: 0,
+  //   max: 1,
+  //   step: 0.1,
+  //   value: window.localStorage.getItem("upperContrast") || 1,
+  // },
   blocksAcross: {
     type: "slider",
     min: 2,
     max: 100,
     step: 1,
-    value: window.localStorage.getItem("blocksAcross") || 20,
+    value: window.localStorage.getItem("blocksAcross") || 68,
   },
   blockSize: {
     type: "slider",
     min: 1,
     max: 60,
     step: 1,
-    value: window.localStorage.getItem("blockSize") || 10,
+    value: window.localStorage.getItem("blockSize") || 22,
   },
   flipX: {
     type: "checkbox",
