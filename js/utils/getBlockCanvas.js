@@ -12,7 +12,7 @@ console.log("textCanvas: ", textCanvas);
 
 const outputCanvas = document.createElement("canvas");
 
-export const getBlockCanvas = (inputCanvas, blockSize) => {
+export const getBlockCanvas = (inputCanvas, blockSize, useCanvasText) => {
   const { width: inputW, height: inputH } = inputCanvas;
 
   outputCanvas.width = inputW * blockSize;
@@ -51,7 +51,8 @@ export const getBlockCanvas = (inputCanvas, blockSize) => {
 
   for (let y = 0; y < inputH; y++) {
     for (let x = 0; x < inputW; x++) {
-      const i = (y * inputW + x) * 4;
+      const index = y * inputW + x;
+      const i = index * 4;
 
       r = pixels[i];
       g = pixels[i + 1];
@@ -64,17 +65,7 @@ export const getBlockCanvas = (inputCanvas, blockSize) => {
 
       outputCtx.save();
 
-      // const charIndex = Math.floor(
-      //   map(
-      //     decimalPercentage,
-      //     lowerContrast,
-      //     upperContrast,
-      //     0,
-      //     densityChars.length
-      //   )
-      // );
-      // const char = densityChars[charIndex];
-      const charIndex = i % promptLength;
+      const charIndex = index % promptLength;
       const char = promptTxt[charIndex];
       outputCtx.globalAlpha = decimalPercentage;
 
@@ -89,17 +80,26 @@ export const getBlockCanvas = (inputCanvas, blockSize) => {
         outputCtx.fillText(char, scaledX, scaledY);
       } else {
         outputCtx.translate(blockX, blockY);
-        outputCtx.drawImage(
-          textCanvas,
-          blockX,
-          blockY,
-          blockSize,
-          blockSize,
-          0,
-          0,
-          blockSize * decimalPercentage,
-          blockSize * decimalPercentage
-        );
+
+        if (useCanvasText) {
+          outputCtx.fillText(
+            char,
+            blockSize * decimalPercentage,
+            blockSize * decimalPercentage
+          );
+        } else {
+          outputCtx.drawImage(
+            textCanvas,
+            blockX,
+            blockY,
+            blockSize,
+            blockSize,
+            0,
+            0,
+            blockSize * decimalPercentage,
+            blockSize * decimalPercentage
+          );
+        }
       }
 
       outputCtx.restore();

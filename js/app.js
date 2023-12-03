@@ -2,43 +2,16 @@ import { getFlippedVideoCanvas } from "./utils/getFlippedVideoCanvas.js";
 import { initControls } from "./controls.js";
 import { getSmallCanvas } from "./utils/getSmallCanvas.js";
 import { getBlockCanvas } from "./utils/getBlockCanvas.js";
-// import { getBrightnessText } from "./utils/getBrightnessText.js";
-
-// import { drawHexagonGrid, getHexDimensions } from "./utils/drawHexagons.js";
 
 // app elements
 const canvas = document.querySelector("#canvas");
 const controls = document.querySelector("#controls");
 const video = document.querySelector("#videoElement");
-// const textHolderP = document.querySelector("#textHolderP");
-
-// const clipPath1 = document.querySelector("#clipPath1");
-// const clipPath2 = document.querySelector("#clipPath2");
 
 // set up controls
 const params = initControls(controls);
 const webcamRes = { w: 40, h: 30 };
 const wToHRatio = webcamRes.h / webcamRes.w;
-
-// const sideLength = 100;
-// const cornerRadius = 20;
-// const padding = 20;
-// const orientation = "pointyTop";
-// const hexDimensions = getHexDimensions({ orientation, sideLength });
-// const hexagonsAcross = Math.ceil(960 / hexDimensions.width);
-// const yOverlap = sideLength / 2;
-// const hexagonsDown = Math.floor(711 / (hexDimensions.height - yOverlap));
-// drawHexagonGrid({
-//   parent1: clipPath1,
-//   parent2: clipPath2,
-//   padding,
-//   hexDimensions,
-//   sideLength,
-//   cornerRadius,
-//   hexagonsAcross,
-//   hexagonsDown,
-//   orientation,
-// });
 
 // set up controls, webcam etc
 export function setup() {
@@ -70,7 +43,7 @@ export function setup() {
 }
 
 export function draw() {
-  const { flipX, flipY, blockSize, blocksAcross } = params;
+  const { flipX, flipY, blockSize, blocksAcross, useCanvasText } = params;
 
   const useCanvas = true;
   const _blockSize = blockSize.value;
@@ -88,17 +61,14 @@ export function draw() {
 
   if (useCanvas) {
     const smallCanvas = getSmallCanvas(frameCanvas, _blocksAcross);
-    const blockCanvas = getBlockCanvas(smallCanvas, _blockSize);
+    const blockCanvas = getBlockCanvas(
+      smallCanvas,
+      _blockSize,
+      useCanvasText.value
+    );
     canvas.width = blockCanvas.width;
     canvas.height = blockCanvas.height;
     const ctx = canvas.getContext("2d");
     ctx.drawImage(blockCanvas, 0, 0);
   }
-  //  else {
-  //   textHolderP.style.fontSize = _blockSize + "px";
-  //   textHolderP.style.lineHeight = _blockSize + "px";
-  //   textHolderP.style.letterSpacing = _blockSize / 2.5 + "px";
-
-  //   textHolderP.innerHTML = getBrightnessText(frameCanvas);
-  // }
 }

@@ -1,34 +1,4 @@
-/*
-Examples
-mountSize: {
-    type: "slider",
-    min: 0,
-    max: 0.5,
-    step: 0.001,
-    value: 0.095,
-  },
-  webcamPosition: {
-    type: "radio",
-    options: ["start", "middle", "end"],
-    value: "middle",
-  },
-*/
-
 const defaultParams = {
-  // lowerContrast: {
-  //   type: "slider",
-  //   min: 0,
-  //   max: 1,
-  //   step: 0.1,
-  //   value: window.localStorage.getItem("lowerContrast") || 0,
-  // },
-  // upperContrast: {
-  //   type: "slider",
-  //   min: 0,
-  //   max: 1,
-  //   step: 0.1,
-  //   value: window.localStorage.getItem("upperContrast") || 1,
-  // },
   blocksAcross: {
     type: "slider",
     min: 2,
@@ -50,6 +20,13 @@ const defaultParams = {
   flipY: {
     type: "checkbox",
     value: window.localStorage.getItem("flipY") === "false" ? false : true,
+  },
+  useCanvasText: {
+    type: "checkbox",
+    value:
+      window.localStorage.getItem("useCanvasText") === "useCanvasText"
+        ? false
+        : true,
   },
 };
 const params = JSON.parse(JSON.stringify(defaultParams));
