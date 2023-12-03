@@ -25,8 +25,8 @@ const defaultParams = {
     type: "checkbox",
     value:
       window.localStorage.getItem("useCanvasText") === "useCanvasText"
-        ? false
-        : true,
+        ? true
+        : false,
   },
 };
 const params = JSON.parse(JSON.stringify(defaultParams));
